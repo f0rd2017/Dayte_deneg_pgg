@@ -192,7 +192,7 @@
 
     .wallet-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 14px;
     }
 
@@ -354,6 +354,7 @@
       border-radius: 14px;
       background: rgba(12, 16, 28, 0.65);
       backdrop-filter: blur(12px);
+      word-break: break-word;
     }
 
     canvas#snow {
@@ -519,8 +520,8 @@
 
     @media (max-width: 900px) {
       .character {
-        width: 200px;
-        opacity: 0.6;
+        width: 180px;
+        opacity: 0.55;
       }
 
       .character.left {
@@ -552,6 +553,65 @@
         width: 100%;
         justify-content: center;
       }
+
+      .wallet-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 16px 14px 14px;
+        border-radius: 14px;
+      }
+
+      .chain {
+        font-size: 15px;
+      }
+
+      .address {
+        font-size: 14px;
+      }
+
+      .character {
+        width: 150px;
+        opacity: 0.35;
+      }
+
+      .character.left {
+        left: -50px;
+        bottom: 2vh;
+      }
+
+      .character.right {
+        right: -40px;
+        top: 6vh;
+      }
+    }
+
+    @media (max-width: 480px) {
+      main {
+        padding: 78px 14px 100px;
+      }
+
+      .top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .cta-row {
+        gap: 10px;
+      }
+
+      .btn {
+        padding: 12px 14px;
+      }
+
+      .note {
+        font-size: 13px;
+      }
+
+      .character {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -575,7 +635,6 @@
       <h1>Задонатьте на свет</h1>
       <p class="lead">Ваши монеты превращаются в тепло и поддержку. Падающий снег, сияние и милые герои напоминают: даже в тёмном мире можно зажечь мягкий свет.</p>
       <div class="cta-row">
-        <button class="btn" data-copy-all>Скопировать все адреса</button>
         <span class="note"><span class="spark">✦</span>Любая сеть &mdash; один жест добра.</span>
       </div>
     </section>
@@ -683,7 +742,6 @@
 
     (() => {
       const copyButtons = document.querySelectorAll('[data-copy]');
-      const allButton = document.querySelector('[data-copy-all]');
 
       const flash = (btn, text) => {
         const original = btn.textContent;
@@ -705,16 +763,6 @@
             flash(btn, 'Скопируйте вручную');
           }
         });
-      });
-
-      allButton?.addEventListener('click', async () => {
-        const all = Array.from(copyButtons).map(b => b.dataset.copy).join('\n');
-        try {
-          await navigator.clipboard.writeText(all);
-          flash(allButton, 'Все адреса скопированы');
-        } catch (err) {
-          flash(allButton, 'Скопируйте вручную');
-        }
       });
     })();
 
